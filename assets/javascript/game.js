@@ -3,12 +3,12 @@ var i;
 var game = {
 	wins: 0,
 	wordsLibrary: ["bojackson", "gretzky", "sissors"],
-	guessesRemaining: 10,
-	solution: "",
-	lettersToGuess: [],
-	hiddenSolution: [],
-	wrongGuesses: [],
-	correctGuesses: [],
+	// guessesRemaining: 10,
+	// solution: "",
+	// lettersToGuess: [],
+	// hiddenSolution: [],
+	// wrongGuesses: [],
+	// correctGuesses: [],
 	startNewGame: function() {
 		//reset all the necessary values
 		game.guessesRemaining = 10;
@@ -32,6 +32,39 @@ var game = {
 		document.getElementById("guesses-remaining").textContent = game.guessesRemaining;
 		//display the letters already guessed
 		document.getElementById("guessed-letters").textContent = game.wrongGuesses.join(" ");
+	},
+	processGuess: function(guess){
+		var userInput = String.fromCharCode(guess).toLowerCase();
+		//check to see if the guess is in the solution array
+		if (game.lettersToGuess.indexOf(userInput) >= 0) {  //if guess has at least one hit
+			//remove the guess from the array that holds the un-guessed letters
+			game.removeFromRemainingLetters(userInput, game.lettersToGuess);
+			//update the 'current word' display to show the guessed letter
+			game.updateCurrentWord(userInput, game.solution, game.hiddenSolution);
+			//add the guessed letter to the correct-guess array
+			game.correctGuesses.push(userInput);
+			//check to see if the game is over
+			game.isGameOver();
+		} else {  //if guess is not in the word
+			//if the incorrect guess was already guessed
+			if (game.wrongGuesses.indexOf(userInput) >= 0) {  
+				alert("you already guessed " + userInput);
+			//if the correct letter was already guessed.
+			} else if (game.correctGuesses.indexOf(userInput) >= 0) {   
+				alert("you already correctly guessed " + userInput);
+			//if the incorrect guess was not already guessed
+			} else { 	
+				console.log("guess again")
+				//reduce the remaining guesses
+				game.guessesRemaining -= 1;
+				//update display of amount of guesses remaining
+				document.getElementById("guesses-remaining").textContent = game.guessesRemaining;
+				//update the letters guessed array
+				game.wrongGuesses.push(userInput);
+				//display guessed letters
+				document.getElementById("guessed-letters").textContent = game.wrongGuesses.join(" ");
+			};
+		};
 	},
 	removeFromRemainingLetters: function(guess, remainingLetterArray){
 		//find ALL indexs of the guessed letter in the remaining-letters array
@@ -63,7 +96,7 @@ var game = {
 	isGameOver: function(){
 		if (game.lettersToGuess.length < 1) {
 			//tell the user they won
-			alert("yay! you won!");
+			alert(game.solution + " is correct! Yay, you won!");
 			//update the wins tally
 			game.wins += 1;
 			//restart the game
@@ -78,35 +111,5 @@ game.startNewGame();
 //listen for input
 document.onkeyup = function(event) {
 	//get user input and create lowercase 
-	var userInput = String.fromCharCode(event.keyCode).toLowerCase();
-	//check to see if the guess is in the solution array
-	if (game.lettersToGuess.indexOf(userInput) >= 0) {  //if guess has at least one hit
-		//remove the guess from the array that holds the un-guessed letters
-		game.removeFromRemainingLetters(userInput, game.lettersToGuess);
-		//update the 'current word' display to show the guessed letter
-		game.updateCurrentWord(userInput, game.solution, game.hiddenSolution);
-		//add the guessed letter to the correct-guess array
-		game.correctGuesses.push(userInput);
-		//check to see if the game is over
-		game.isGameOver();
-	} else {  //if guess is not in the word
-		//if the incorrect guess was already guessed
-		if (game.wrongGuesses.indexOf(userInput) >= 0) {  
-			alert("you already guessed " + userInput);
-		//if the correct letter was already guessed.
-		} else if (game.correctGuesses.indexOf(userInput) >= 0) {   
-			alert("you already correctly guessed " + userInput);
-		//if the incorrect guess was not already guessed
-		} else { 	
-			console.log("guess again")
-			//reduce the remaining guesses
-			game.guessesRemaining -= 1;
-			//update display of amount of guesses remaining
-			document.getElementById("guesses-remaining").textContent = game.guessesRemaining;
-			//update the letters guessed array
-			game.wrongGuesses.push(userInput);
-			//display guessed letters
-			document.getElementById("guessed-letters").textContent = game.wrongGuesses.join(" ");
-		};
-	};
+	game.processGuess(event.keyCode);
 };
