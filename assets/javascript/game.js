@@ -1,5 +1,7 @@
 
-var i;
+//declare variables
+var i, indices;
+//create game object
 var game = {
 	wins: 0,
 	wordsLibrary: ["bojackson", "gretzky", "sissors"],
@@ -64,11 +66,19 @@ var game = {
 				//display guessed letters
 				document.getElementById("guessed-letters").textContent = game.wrongGuesses.join(" ");
 			};
+			//if no guesses remain then game over
+			if (game.guessesRemaining === 0) {
+				alert("no more guesses remain.  game over, you lose.  try again");
+				//reset the wins counter
+				game.wins = 0;
+				//restart game
+				game.startNewGame();
+			}
 		};
 	},
 	removeFromRemainingLetters: function(guess, remainingLetterArray){
 		//find ALL indexs of the guessed letter in the remaining-letters array
-		var indices = [];
+		indices = [];
 		for (i = 0; i < remainingLetterArray.length; i++) {
 			if (remainingLetterArray[i] === guess) indices.push(i);
 		};
