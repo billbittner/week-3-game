@@ -32,7 +32,45 @@ var game = {
 		document.getElementById("guesses-remaining").textContent = game.guessesRemaining;
 		//display the letters already guessed
 		document.getElementById("guessed-letters").textContent = game.wrongGuesses.join(" ");
+	},
+	removeFromRemainingLetters: function(guess, remainingLetterArray){
+		//find ALL indexs of the guessed letter in the remaining-letters array
+		var indices = [];
+		for (i = 0; i < remainingLetterArray.length; i++) {
+			if (remainingLetterArray[i] === guess) indices.push(i);
+		};
+		console.log("the position(s) of " + guess + " in the remaining-letters array is/are " + indices);
+		//remove the guessed letter from the remaining-letters array
+		for (i = (indices.length-1); i >= 0; i--) {  //must start from end so index of next target remains accurate after each splice is made
+			remainingLetterArray.splice(indices[i], 1);	
+		};
+		console.log("the remaining-letters array is: " + remainingLetterArray);
+	},
+	updateCurrentWord: function(guess, solution, currentWord) {
+		//find the position(s) of the guessed letter in the solution word
+		indices = [];
+		for (i = 0; i < solution.length; i++){
+			if (solution[i] === guess) indices.push(i);
+		};
+		console.log("the position(s) of " + guess + " in the solution is " + indices);
+		//update the hidden word
+		for (i = 0; i < indices.length; i++){
+			currentWord[indices[i]] = guess; 
+		};
+		//display the hidden word
+		document.getElementById("current-word").textContent = currentWord.join(" ");
+	},
+	isGameOver: function(){
+		if (game.lettersToGuess.length < 1) {
+			//tell the user they won
+			alert("yay! you won!");
+			//update the wins tally
+			game.wins += 1;
+			//restart the game
+			game.startNewGame();
+		};
 	}
+
 };
 
 
@@ -43,52 +81,23 @@ document.onkeyup = function(event) {
 	var userInput = String.fromCharCode(event.keyCode).toLowerCase();
 	//check to see if the guess is in the solution array
 	if (game.lettersToGuess.indexOf(userInput) >= 0) {  //if guess has at least one hit
-		//find ALL indexs of the guessed letter in the remaining-letters array
-		var indices = [];
-		for (i = 0; i < game.lettersToGuess.length; i++) {
-			if (game.lettersToGuess[i] === userInput) indices.push(i);
-		};
-		console.log("the position(s) of " + userInput + " in the remaining-letters array is/are " + indices);
-		//remove the guessed letter from the remaining-letters array
-		for (i = (indices.length-1); i >= 0; i--) {  //must start from end so index of next target remains accurate after each splice is made
-			game.lettersToGuess.splice(indices[i], 1);	
-		};
-		console.log("the remaining-letters array is: " + game.lettersToGuess);
-
-		//find the position(s) of the guessed letter in the solution word
-		indices = [];
-		for (i = 0; i < game.solution.length; i++){
-			if (game.solution[i] === userInput) indices.push(i);
-		};
-		console.log("the position(s) of " + userInput + " in the solution is " + indices);
-		//update the hidden word
-		for (i = 0; i < indices.length; i++){
-			//for each indice we logged, find 
-			var lettersToChange = indices[i];
-			game.hiddenSolution[lettersToChange] = userInput;  //chould i do hiddenSolution[indices[i]]?
-		}
-
-		//display the hidden word
-		document.getElementById("current-word").textContent = game.hiddenSolution.join(" ");
-
+		//remove the guess from the array that holds the un-guessed letters
+		game.removeFromRemainingLetters(userInput, game.lettersToGuess);
+		//update the 'current word' display to show the guessed letter
+		game.updateCurrentWord(userInput, game.solution, game.hiddenSolution);
 		//add the guessed letter to the correct-guess array
 		game.correctGuesses.push(userInput);
-
-		//check to see if the game is won
-		if (game.lettersToGuess.length < 1) {
-			//tell the user they won
-			alert("yay! you won!");
-			//update the wins tally
-			game.wins += 1;
-			//restart the game
-			game.startNewGame();
-		}
+		//check to see if the game is over
+		game.isGameOver();
 	} else {  //if guess is not in the word
-		if (game.wrongGuesses.indexOf(userInput) >= 0) {  //if the incorrect guess was already guessed
+		//if the incorrect guess was already guessed
+		if (game.wrongGuesses.indexOf(userInput) >= 0) {  
 			alert("you already guessed " + userInput);
-		} else if (game.correctGuesses.indexOf(userInput) >= 0) {   //if the correct letter was already guessed.
+		//if the correct letter was already guessed.
+		} else if (game.correctGuesses.indexOf(userInput) >= 0) {   
 			alert("you already correctly guessed " + userInput);
-		} else { //if the incorrect guess was not already guessed
+		//if the incorrect guess was not already guessed
+		} else { 	
 			console.log("guess again")
 			//reduce the remaining guesses
 			game.guessesRemaining -= 1;
