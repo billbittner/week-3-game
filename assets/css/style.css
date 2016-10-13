@@ -2,14 +2,13 @@ h1, h2, h3, p {
 	line-height: 2;
 	font-family: 'Permanent Marker', cursive;
 }
-/*h1, h2, h3 {
-	color: white;
-}*/
+
 h1 {
 	font-size: xx-large;
 }
 h2 {
 	font-size: x-large;
+	color: yellow;
 }
 h3 {
 	font-size: large;
@@ -37,7 +36,6 @@ p {
 }
 
 #subtitle {
-	color: yellow;
 	font-family: 'Yesteryear', cursive;
 	font-size: 40px;
 	position: absolute;
@@ -64,27 +62,19 @@ p {
 	overflow: auto;
 }
 
-#directions {
-	color: green;
-}
-
-.column {
-	width: 50%;
-	/*height: 100%;	*/
-	
-}
-
 .column-left {
 	float: left;
+	width: 40%;
+	padding: 5%;
 }
 
 #picture {
-	width: 90%;
-	padding: 5%;
-	height: auto;
+	width: 100%;
 }
 
 .column-right {
 	float: right;
+	width: 45%;
+	padding: 5% 5% 5% 0px;
 }
 
