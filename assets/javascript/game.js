@@ -4,13 +4,14 @@ var i, indices;
 //create game object
 var game = {
 	wins: 0,
-	wordsLibrary: ["bojackson", "gretzky", "sissors"],
-	// guessesRemaining: 10,
-	// solution: "",
-	// lettersToGuess: [],
-	// hiddenSolution: [],
-	// wrongGuesses: [],
-	// correctGuesses: [],
+	wordsLibrary: ["football", "baseball", "hockey", "soccer", "tennis"],
+	letters: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'],
+	guessesRemaining: 10,
+	solution: "",
+	lettersToGuess: [],
+	hiddenSolution: [],
+	wrongGuesses: [],
+	correctGuesses: [],
 	startNewGame: function() {
 		//reset all the necessary values
 		game.guessesRemaining = 10;
@@ -33,21 +34,24 @@ var game = {
 		//display the number of Guesses Remaining
 		document.getElementById("guesses-remaining").textContent = game.guessesRemaining;
 		//display the letters already guessed
-		document.getElementById("guessed-letters").textContent = game.wrongGuesses.join(" ");
+		document.getElementById("guessed-letters").textContent = "none";
 	},
-	processGuess: function(guess){
+	processGuess: function(guess, wordToGuess){
 		var userInput = String.fromCharCode(guess).toLowerCase();
+		// //check to see if the guess is a letter
 		//check to see if the guess is in the solution array
-		if (game.lettersToGuess.indexOf(userInput) >= 0) {  //if guess has at least one hit
+		if (wordToGuess.indexOf(userInput) >= 0) {  
 			//remove the guess from the array that holds the un-guessed letters
-			game.removeFromRemainingLetters(userInput, game.lettersToGuess);
+			game.removeFromRemainingLetters(userInput, wordToGuess);
 			//update the 'current word' display to show the guessed letter
 			game.updateCurrentWord(userInput, game.solution, game.hiddenSolution);
+			
 			//add the guessed letter to the correct-guess array
 			game.correctGuesses.push(userInput);
 			//check to see if the game is over
 			game.isGameOver();
-		} else {  //if guess is not in the word
+		//if guess is not in the word
+		} else {  
 			//if the incorrect guess was already guessed
 			if (game.wrongGuesses.indexOf(userInput) >= 0) {  
 				alert("you already guessed " + userInput);
@@ -76,6 +80,13 @@ var game = {
 			}
 		};
 	},
+	// isLetter: function(guess){
+	// 	var result = false;
+	// 	for (i = 0; i < game.letters.length; i++) {
+	// 		if (guess === game.letters[i]) result = true;
+	// 	};
+	// 	return result;
+	// },
 	removeFromRemainingLetters: function(guess, remainingLetterArray){
 		//find ALL indexs of the guessed letter in the remaining-letters array
 		indices = [];
@@ -121,5 +132,5 @@ game.startNewGame();
 //listen for input
 document.onkeyup = function(event) {
 	//get user input and create lowercase 
-	game.processGuess(event.keyCode);
+	game.processGuess(event.keyCode, game.lettersToGuess);
 };

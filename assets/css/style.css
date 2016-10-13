@@ -1,6 +1,10 @@
-h1, h2, h3 {
-	font-weight: bold
+h1, h2, h3, p {
+	line-height: 2;
+	font-family: 'Permanent Marker', cursive;
 }
+/*h1, h2, h3 {
+	color: white;
+}*/
 h1 {
 	font-size: xx-large;
 }
@@ -14,3 +18,73 @@ h3 {
 p {
 	font-size: normal;
 }
+
+.centered-wrapper {
+	margin:30px auto 30px auto;
+	width: 50%;
+}
+
+.header {
+	background-color: green;
+	text-align: center;
+	position: relative;
+}
+
+#title {
+	color: white;
+	font-family: 'Monoton', cursive;
+	font-size: 100px;
+}
+
+#subtitle {
+	color: yellow;
+	font-family: 'Yesteryear', cursive;
+	font-size: 40px;
+	position: absolute;
+	right: 5%;
+	bottom: 20px;
+}
+
+.rotate {
+	/* Safari */
+	-webkit-transform: rotate(-20deg);
+	/* Firefox */
+	-moz-transform: rotate(-20deg);
+	/* IE */
+	-ms-transform: rotate(-20deg);
+	/* Opera */
+	-o-transform: rotate(-20deg);
+	/* Internet Explorer */
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0);
+}
+
+.main-content {
+	background-color: yellowgreen;
+	color: white;
+	overflow: auto;
+}
+
+#directions {
+	color: green;
+}
+
+.column {
+	width: 50%;
+	/*height: 100%;	*/
+	
+}
+
+.column-left {
+	float: left;
+}
+
+#picture {
+	width: 90%;
+	padding: 5%;
+	height: auto;
+}
+
+.column-right {
+	float: right;
+}
+
