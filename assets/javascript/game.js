@@ -11,7 +11,6 @@ var game = {
 		{word: "soccer", sound: 'assets/sounds/soccer.wav', pic: 'assets/images/soccer.jpg'},
 		{word: "tennis", sound: 'assets/sounds/tennis.wav', pic: 'assets/images/tennis.jpg'}
 	],
-	letters: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'],
 	guessesRemaining: 10,
 	solutionWord: "",
 	lettersToGuess: [],
