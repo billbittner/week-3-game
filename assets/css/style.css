@@ -44,15 +44,10 @@ p {
 }
 
 .rotate {
-	/* Safari */
 	-webkit-transform: rotate(-20deg);
-	/* Firefox */
 	-moz-transform: rotate(-20deg);
-	/* IE */
 	-ms-transform: rotate(-20deg);
-	/* Opera */
 	-o-transform: rotate(-20deg);
-	/* Internet Explorer */
 	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0);
 }
 
